@@ -10,9 +10,16 @@ object pdf2png {
     var document = PDDocument.load(path)
 
     var writer = new PDFImageWriter()
+    
+    var imageFormat = "png"
+    var passWord = ""
+    var startPage = 1;
     var endPage = document.getNumberOfPages()
-    var success = writer.writeImage(document, "png", "", 1, endPage,
-      "/Users/JunsangPark/Downloads/myFileName", BufferedImage.TYPE_INT_RGB,
+    var savePath = "/Users/JunsangPark/Downloads/"
+    var outputFile = "myFileName_"
+      
+    var success = writer.writeImage(document, imageFormat, passWord, startPage, endPage,
+      savePath+outputFile, BufferedImage.TYPE_INT_RGB,
       Toolkit.getDefaultToolkit().getScreenResolution())
     System.out.println(success)
 
@@ -20,7 +27,11 @@ object pdf2png {
   }
 
   def main(args: Array[String]) {
-    var path = "/Users/JunsangPark/Downloads/test.pdf"
+    
+    var loadPath = "/Users/JunsangPark/Downloads/"
+    var inputFile = "test.pdf"
+    
+    var path = loadPath + inputFile
     	
     getDocument(path)
 
