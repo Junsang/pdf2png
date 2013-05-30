@@ -76,7 +76,6 @@ object pdf2png {
 
 			System.out.println("=================================================");
 		}
-		//  stripper.writeText(arg0, arg1);
 	}
 
 
@@ -90,8 +89,5 @@ object pdf2png {
 		getDocument(path)
 		getMetaData(path)
 		getText(path)
-
-		//       System.out.println(e.getMessage());
 	}
-
 }
