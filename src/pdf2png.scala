@@ -57,9 +57,9 @@ object pdf2png {
 		System.out.println( "Creation Date=" + info.getCreationDate() );
 		System.out.println( "Modification Date=" + info.getModificationDate());
 		System.out.println( "Trapped=" + info.getTrapped() ); 
-
 	}
 
+	
 	def getText(path: String) {
 		var document = PDDocument.load(path);	      
 
@@ -82,7 +82,7 @@ object pdf2png {
 	def main(args: Array[String]) {
 
 		var loadPath = "/Users/JunsangPark/Downloads/"
-		var inputFile = "test1.pdf"
+		var inputFile = args.apply(0)
 
 		var path = loadPath + inputFile
 
