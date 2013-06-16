@@ -15,13 +15,15 @@ object pdf2png {
 		var passWord = ""
 		var startPage = 1;
 		var endPage = document.getNumberOfPages()
-		var savePath = "/Users/JunsangPark/Downloads/"
-		var outputFile = "myFileName_"
+//		var savePath = "/Users/JunsangPark/Downloads/"
+//		var outputFile = "myFileName_"
+		var savePath = path+"_"
 
+		
 		var writer = new PDFImageWriter()
 
 		var success = writer.writeImage(document, imageFormat, passWord, startPage, endPage,
-				savePath+outputFile, BufferedImage.TYPE_INT_RGB,
+				savePath, BufferedImage.TYPE_INT_RGB,
 				Toolkit.getDefaultToolkit().getScreenResolution())
 				System.out.println(success)
 
@@ -31,8 +33,8 @@ object pdf2png {
 	def getMetaData(path: String) {
 		var document = PDDocument.load(path);
 		var info = document.getDocumentInformation();
-
-		var metaData = new BufferedWriter(new FileWriter("/Users/JunsangPark/Downloads/metaData.txt"));
+		
+		var metaData = new BufferedWriter(new FileWriter(path+"_metaData.txt"));
 		var metadataText = 
 			        	"Page Count=" + document.getNumberOfPages() + "\n"+
 						"Title=" + info.getTitle() +"\n"+
@@ -41,12 +43,46 @@ object pdf2png {
 						"Keywords=" + info.getKeywords() +"\n"+
 						"Creator=" + info.getCreator() +"\n"+
 						"Producer=" + info.getProducer() +"\n"+
-						"Creation Date=" + info.getCreationDate() +"\n"+
-						"Modification Date=" + info.getModificationDate()+"\n"+
+						"Creation Date=" + info.getCreationDate().getTime() +"\n"+
+						"Modification Date=" + info.getModificationDate().getTime()+"\n"+
 						"Trapped=" + info.getTrapped() ; 
 		metaData.write(metadataText);
 		metaData.close();
+	
+		
+		var metaData_PageCount = new BufferedWriter(new FileWriter(path+"_metaData_PageCount.txt"));
+		var pageCountText = ""+document.getNumberOfPages()
+		metaData_PageCount.write(pageCountText);
+		metaData_PageCount.close();
 
+		var metaData_Title = new BufferedWriter(new FileWriter(path+"_metaData_Title.txt"));
+		var titleText = ""+info.getTitle()
+		metaData_Title.write(titleText);
+		metaData_Title.close();
+		
+		var metaData_Author = new BufferedWriter(new FileWriter(path+"_metaData_Author.txt"));
+		var authorText = ""+info.getAuthor()
+		metaData_Author.write(authorText);
+		metaData_Author.close();
+		
+		var metaData_Creator = new BufferedWriter(new FileWriter(path+"_metaData_Creator.txt"));
+		var creatorText = ""+info.getCreator()
+		metaData_Creator.write(creatorText);
+		metaData_Creator.close();
+		
+		//creation Date
+		var metaData_cDate = new BufferedWriter(new FileWriter(path+"_metaData_cDate.txt"));
+		var cDateText = ""+info.getCreationDate().getTime()
+		metaData_cDate.write(cDateText);
+		metaData_cDate.close();
+		
+		//modification Date
+		var metaData_mDate = new BufferedWriter(new FileWriter(path+"_metaData_mDate.txt"));
+		var mDateText = ""+info.getModificationDate().getTime()
+		metaData_mDate.write(mDateText);
+		metaData_mDate.close();
+		
+		
 		System.out.println( "Page Count=" + document.getNumberOfPages() );
 		System.out.println( "Title=" + info.getTitle() );
 		System.out.println( "Author=" + info.getAuthor() );
@@ -54,9 +90,12 @@ object pdf2png {
 		System.out.println( "Keywords=" + info.getKeywords() );
 		System.out.println( "Creator=" + info.getCreator() );
 		System.out.println( "Producer=" + info.getProducer() );
-		System.out.println( "Creation Date=" + info.getCreationDate() );
-		System.out.println( "Modification Date=" + info.getModificationDate());
+		System.out.println( "Creation Date=" + info.getCreationDate().getTime() );
+		System.out.println( "Modification Date=" + info.getModificationDate().getTime());
 		System.out.println( "Trapped=" + info.getTrapped() ); 
+		
+		
+		document.close()
 	}
 
 	
@@ -69,20 +108,23 @@ object pdf2png {
 			stripper.setEndPage( i );
 			System.out.println(stripper.getText(document));
 
-			var textData = new BufferedWriter(new FileWriter("/Users/JunsangPark/Downloads/textPage"+i+".txt"));
+			var textData = new BufferedWriter(new FileWriter(path+"_textPage"+i+".txt"));
 			var text = stripper.getText(document);
 			textData.write(text);
 			textData.close();
+			
 
 			System.out.println("=================================================");
 		}
+		
+			document.close()
 	}
 
 
 	def main(args: Array[String]) {
 
-		var loadPath = "/Users/JunsangPark/Downloads/"
 		var inputFile = args.apply(0)
+		var loadPath = args.apply(1)//"/Users/JunsangPark/Downloads/"
 
 		var path = loadPath + inputFile
 
